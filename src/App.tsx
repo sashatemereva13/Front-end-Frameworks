@@ -1,8 +1,8 @@
 import { useState } from "react";
 import type { Movie } from "./types";
 import { SAMPLE_MOVIES } from "./data/sampleMovies";
-import { MovieList } from "./components/MovieList";
-import { SearchBar } from "./components/SearchBar";
+import MovieList from "./components/MovieList";
+import SearchBar from "./components/SearchBar";
 
 function App() {
   // creates react state named movies

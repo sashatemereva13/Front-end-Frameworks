@@ -1,11 +1,11 @@
 import type { Movie } from "../types";
-import { MovieCard } from "./MovieCard";
+import MovieCard from "./MovieCard";
 
 interface MovieListProps {
   movies: Movie[];
 }
 
-export const MovieList = ({ movies }: MovieListProps) => {
+const MovieList = ({ movies }: MovieListProps) => {
   if (movies.length === 0) {
     return <p> No movies found.</p>;
   }
@@ -18,3 +18,5 @@ export const MovieList = ({ movies }: MovieListProps) => {
     </div>
   );
 };
+
+export default MovieList;

@@ -7,8 +7,7 @@ interface MovieCardProps {
   movie: Movie;
   onClick?: () => void;
 }
-
-export const MovieCard = ({ movie, onClick }: MovieCardProps) => {
+const MovieCard = ({ movie, onClick }: MovieCardProps) => {
   const [isFavourite, setIsFavourite] = useState(false);
 
   const handleFavouriteOnClick = (
@@ -55,3 +54,5 @@ export const MovieCard = ({ movie, onClick }: MovieCardProps) => {
     </div>
   );
 };
+
+export default MovieCard;

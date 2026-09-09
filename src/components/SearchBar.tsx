@@ -5,13 +5,13 @@ interface SearchBarProps {
   onChange: (value: string) => void;
 }
 
-export const SearchBar = ({ query, onChange }: SearchBarProps) => {
+const SearchBar = ({ query, onChange }: SearchBarProps) => {
   return (
     <div className="header-search">
       <div className="search-input-wrapper">
         <input
           className="search-input"
-          type="search"
+          type="text"
           placeholder="just what you are looking for..."
           value={query}
           onChange={(event) => onChange(event.target.value)}
@@ -20,3 +20,5 @@ export const SearchBar = ({ query, onChange }: SearchBarProps) => {
     </div>
   );
 };
+
+export default SearchBar;
