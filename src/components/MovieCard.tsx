@@ -7,6 +7,8 @@ interface MovieCardProps {
   movie: Movie;
   onClick?: () => void;
 }
+
+
 const MovieCard = ({ movie, onClick }: MovieCardProps) => {
   const [isFavourite, setIsFavourite] = useState(false);
 
@@ -17,7 +19,7 @@ const MovieCard = ({ movie, onClick }: MovieCardProps) => {
     setIsFavourite(!isFavourite);
   };
   return (
-    <div className="movie-card" onClick={onClick}>
+    <div className="movie-card" onClick={onClick} tabIndex={0} role="button">
       <div className="poster-wrapper">
         <img
           className="poster-img"
