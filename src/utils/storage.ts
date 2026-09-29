@@ -25,7 +25,9 @@ export function toggleFavourites(movie: Movie): Movie[] {
 
   try {
     localStorage.setItem(FAVOURITES_KEY, JSON.stringify(updatedFavourites));
-  } catch {}
+  } catch {
+    // Keep the updated favourites in React state if localStorage is unavailable.
+  }
 
   return updatedFavourites;
 }
