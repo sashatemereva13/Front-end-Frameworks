@@ -1,7 +1,5 @@
 interface SearchBarProps {
   query: string;
-  // void doesn't return any value
-  // onchange receies and finishes without return
   onChange: (value: string) => void;
 }
 

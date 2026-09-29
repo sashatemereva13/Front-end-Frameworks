@@ -6,17 +6,29 @@ import { useState } from "react";
 interface MovieCardProps {
   movie: Movie;
   onClick?: () => void;
+  isFavourite?: boolean;
+  onToggleFavourite?: (movie: Movie) => void;
 }
 
-
-const MovieCard = ({ movie, onClick }: MovieCardProps) => {
-  const [isFavourite, setIsFavourite] = useState(false);
+const MovieCard = ({
+  movie,
+  onClick,
+  isFavourite,
+  onToggleFavourite,
+}: MovieCardProps) => {
+  const [localIsFavourite, setLocalIsFavourite] = useState(false);
+  const favouriteActive = onToggleFavourite ? isFavourite : localIsFavourite;
 
   const handleFavouriteOnClick = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     event.stopPropagation();
-    setIsFavourite(!isFavourite);
+
+    if (onToggleFavourite) {
+      onToggleFavourite(movie);
+    } else {
+      setLocalIsFavourite((currentValue) => !currentValue);
+    }
   };
   return (
     <div className="movie-card" onClick={onClick} tabIndex={0} role="button">
@@ -33,14 +45,16 @@ const MovieCard = ({ movie, onClick }: MovieCardProps) => {
             </span>
 
             <button
-              className={`favorite-btn ${isFavourite ? "is-favorite" : ""}`}
+              className={`favorite-btn ${favouriteActive ? "is-favorite" : ""}`}
               type="button"
               onClick={handleFavouriteOnClick}
               aria-label={
-                isFavourite ? "Remove from favourites" : "Add to favourites"
+                favouriteActive
+                  ? "Remove from favourites"
+                  : "Add to favourites"
               }
             >
-              {isFavourite ? "♥" : "♡"}
+              {favouriteActive ? "♥" : "♡"}
             </button>
           </div>
         </div>

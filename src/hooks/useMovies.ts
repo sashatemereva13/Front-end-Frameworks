@@ -1,11 +1,28 @@
 import { useEffect, useState } from "react";
-import type { Movie } from "../types";
+import type { Movie, SortOption } from "../types";
 import { movieService } from "../services/movieService";
 
-export function useMovies() {
+interface UseMoviesOptions {
+  search?: string;
+  genre?: string;
+  sort?: SortOption;
+  onlyFavourites?: boolean;
+  page?: number;
+  refreshKey?: number;
+}
+
+export function useMovies({
+  search = "",
+  genre = "all",
+  sort = "popularity",
+  onlyFavourites = false,
+  page = 1,
+  refreshKey = 0,
+}: UseMoviesOptions = {}) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isLiveApi, setIsLiveApi] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -17,11 +34,17 @@ export function useMovies() {
         setError(null);
 
         const data = await movieService.fetchMovies({
+          search,
+          genre,
+          sort,
+          onlyFavourites,
+          page,
           signal: controller.signal,
         });
 
         if (!cancelled) {
           setMovies(data.results);
+          setIsLiveApi(data.isLiveApi);
         }
       } catch (error) {
         const wasAborted =
@@ -43,7 +66,7 @@ export function useMovies() {
       cancelled = true;
       controller.abort();
     };
-  }, []);
+  }, [search, genre, sort, onlyFavourites, page, refreshKey]);
 
-  return { movies, isLoading, error };
+  return { movies, isLoading, error, isLiveApi };
 }

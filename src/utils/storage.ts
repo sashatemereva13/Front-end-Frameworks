@@ -2,7 +2,7 @@ const FAVOURITES_KEY = "cinegrid_favourites";
 const THEME_KEY = "cinegrid_theme";
 const API_KEY = "cinegrid_api_key";
 
-export function getFavourites() {
+export function getFavourites(): Movie[] {
   try {
     return JSON.parse(localStorage.getItem(FAVOURITES_KEY) || "[]");
   } catch {
@@ -10,7 +10,7 @@ export function getFavourites() {
   }
 }
 
-export function toggleFavourites(movie) {
+export function toggleFavourites(movie: Movie): Movie[] {
   const favourites = getFavourites();
 
   const alreadyFavourite = favourites.some(
@@ -30,21 +30,22 @@ export function toggleFavourites(movie) {
   return updatedFavourites;
 }
 
-export function getTheme() {
+export function getTheme(): Theme {
   const theme = localStorage.getItem(THEME_KEY);
 
   return theme === "light" ? "light" : "dark";
 }
 
-export function setTheme(theme) {
+export function setTheme(theme: Theme) {
   localStorage.setItem(THEME_KEY, theme);
   document.documentElement.setAttribute("data-theme", theme);
 }
 
-export function getApiKey(key) {
+export function getApiKey(): string {
   return localStorage.getItem(API_KEY) || "";
 }
 
-export function setApiKey(key) {
+export function setApiKey(key: string) {
   localStorage.setItem(API_KEY, key.trim());
 }
+import type { Movie, Theme } from "../types";

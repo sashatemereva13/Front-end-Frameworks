@@ -4,7 +4,7 @@
 export interface Movie {
   id: number;
   title: string;
-  original_title: string;
+  original_title?: string;
   overview: string;
   poster_path: string | null;
   backdrop_path: string | null;
@@ -16,7 +16,11 @@ export interface Movie {
   adult: boolean;
 }
 
-export type SortOption = "popularity" | "rating" | "release_date" | "title";
+export type SortOption =
+  | "popularity"
+  | "vote_average"
+  | "release_date"
+  | "title";
 
 export type ViewMode = "grid" | "list";
 

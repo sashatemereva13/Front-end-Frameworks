@@ -1013,3 +1013,68 @@ select {
     gap: 12px;
   }
 }
+
+/* Navigation and API configuration use the same design tokens as the shell. */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.header-nav a {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.header-nav a:hover,
+.header-nav a.active {
+  color: var(--text-main);
+  background-color: var(--bg-pill);
+}
+
+.api-config-dialog {
+  max-width: 480px;
+  padding: 32px;
+}
+
+.api-config-dialog h2 {
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+}
+
+.api-config-form {
+  display: grid;
+  gap: 18px;
+}
+
+.api-config-form label {
+  display: grid;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.api-config-form input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-pill);
+}
+
+.api-config-form input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+@media (max-width: 768px) {
+  .header-nav {
+    order: 2;
+  }
+}
