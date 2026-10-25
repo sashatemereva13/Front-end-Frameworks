@@ -1,15 +1,12 @@
 import { NavLink } from "react-router-dom";
-import type { Theme } from "../types";
 import { Heart, Moon, Search, Settings, Sun } from "lucide-react";
+import { useAppContext } from "../context/AppContext";
 
 interface HeaderProps {
   search: string;
   onSearch: (search: string) => void;
   onlyFavourites: boolean;
   onToggleFavourites: () => void;
-  theme: Theme;
-  onToggleTheme: () => void;
-  favCount: number;
   onOpenApiConfig: () => void;
 }
 
@@ -18,11 +15,9 @@ function Header({
   onSearch,
   onlyFavourites,
   onToggleFavourites,
-  theme,
-  onToggleTheme,
-  favCount,
   onOpenApiConfig,
 }: HeaderProps) {
+  const { theme, toggleTheme, favorites } = useAppContext();
   return (
     <header className="site-header">
       <div className="header-inner">
@@ -61,12 +56,12 @@ function Header({
           >
             <Heart fill={onlyFavourites ? "currentColor" : "none"} size={18} />
             <span>Favourites</span>
-            <span className="count-badge">{favCount}</span>
+            <span className="count-badge">{favorites.length}</span>
           </button>
           <button
             type="button"
             className="theme-toggle-btn"
-            onClick={onToggleTheme}
+            onClick={toggleTheme}
             aria-label="Toggle theme"
           >
             {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}

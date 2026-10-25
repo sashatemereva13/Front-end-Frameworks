@@ -3,20 +3,19 @@ import { Heart, X, Youtube } from "lucide-react";
 import type { Movie } from "../types";
 import { getBackdropUrl, getPosterUrl } from "../data/sampleMovies";
 import { getGenreNames } from "../data/genres";
+import { useAppContext } from "../context/AppContext";
 
 interface MovieModalProps {
   movie: Movie;
-  isFavourite: boolean;
   onClose: () => void;
-  onToggleFavourite: (movie: Movie) => void;
 }
 
 function MovieModal({
   movie,
-  isFavourite,
   onClose,
-  onToggleFavourite,
 }: MovieModalProps) {
+  const { isFavorite, toggleFavorite } = useAppContext();
+  const favouriteActive = isFavorite(movie.id);
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
 
@@ -91,9 +90,9 @@ function MovieModal({
             <p className="modal-overview">{movie.overview}</p>
 
             <div className="modal-footer-actions">
-              <button className="btn-primary" type="button" onClick={() => onToggleFavourite(movie)}>
-                <Heart fill={isFavourite ? "currentColor" : "none"} />
-                {isFavourite ? "Remove from favourites" : "Add to favourites"}
+              <button className="btn-primary" type="button" onClick={() => toggleFavorite(movie)}>
+                <Heart fill={favouriteActive ? "currentColor" : "none"} />
+                {favouriteActive ? "Remove from favourites" : "Add to favourites"}
               </button>
               <a className="btn-secondary" href={trailerUrl} target="_blank" rel="noreferrer">
                 <Youtube />

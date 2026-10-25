@@ -1,51 +1,44 @@
 import type { Movie } from "../types";
 import { getPosterUrl } from "../data/sampleMovies";
-import { useState } from "react";
+import { useAppContext } from "../context/AppContext";
+import styles from "./MovieCard.module.css";
 
 // describes the shape of the props
 interface MovieCardProps {
   movie: Movie;
   onClick?: () => void;
-  isFavourite?: boolean;
-  onToggleFavourite?: (movie: Movie) => void;
 }
 
 const MovieCard = ({
   movie,
   onClick,
-  isFavourite,
-  onToggleFavourite,
 }: MovieCardProps) => {
-  const [localIsFavourite, setLocalIsFavourite] = useState(false);
-  const favouriteActive = onToggleFavourite ? isFavourite : localIsFavourite;
+  const { isFavorite, toggleFavorite } = useAppContext();
+  const favouriteActive = isFavorite(movie.id);
 
   const handleFavouriteOnClick = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     event.stopPropagation();
 
-    if (onToggleFavourite) {
-      onToggleFavourite(movie);
-    } else {
-      setLocalIsFavourite((currentValue) => !currentValue);
-    }
+    toggleFavorite(movie);
   };
   return (
-    <div className="movie-card" onClick={onClick} tabIndex={0} role="button">
-      <div className="poster-wrapper">
+    <div className={styles.movieCard} onClick={onClick} tabIndex={0} role="button">
+      <div className={styles.posterWrapper}>
         <img
-          className="poster-img"
+          className={styles.posterImg}
           src={getPosterUrl(movie.poster_path)}
           alt={movie.title}
         />
-        <div className="poster-overlay">
-          <div className="card-top-badges">
-            <span className="rating-badge">
+        <div className={styles.posterOverlay}>
+          <div className={styles.cardTopBadges}>
+            <span className={styles.ratingBadge}>
               {movie.vote_average.toFixed(1)}
             </span>
 
             <button
-              className={`favorite-btn ${favouriteActive ? "is-favorite" : ""}`}
+              className={`${styles.favoriteBtn} ${favouriteActive ? styles.isFavorite : ""}`}
               type="button"
               onClick={handleFavouriteOnClick}
               aria-label={
@@ -60,10 +53,10 @@ const MovieCard = ({
         </div>
       </div>
 
-      <div className="movie-card-info">
-        <h2 className="movie-card-title">{movie.title}</h2>
+      <div className={styles.movieCardInfo}>
+        <h2 className={styles.movieCardTitle}>{movie.title}</h2>
 
-        <div className="movie-card-meta">
+        <div className={styles.movieCardMeta}>
           <span>{movie.release_date}</span>
         </div>
       </div>

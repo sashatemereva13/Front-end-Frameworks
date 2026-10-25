@@ -1,10 +1,19 @@
-const FAVOURITES_KEY = "cinegrid_favourites";
+const FAVORITES_KEY = "cinegrid_favorites";
+const LEGACY_FAVOURITES_KEY = "cinegrid_favourites";
 const THEME_KEY = "cinegrid_theme";
 const API_KEY = "cinegrid_api_key";
 
 export function getFavourites(): Movie[] {
   try {
-    return JSON.parse(localStorage.getItem(FAVOURITES_KEY) || "[]");
+    const saved = localStorage.getItem(FAVORITES_KEY);
+    if (saved !== null) return JSON.parse(saved);
+
+    const legacySaved = localStorage.getItem(LEGACY_FAVOURITES_KEY);
+    if (legacySaved !== null) {
+      localStorage.setItem(FAVORITES_KEY, legacySaved);
+      return JSON.parse(legacySaved);
+    }
+    return [];
   } catch {
     return [];
   }
@@ -24,7 +33,7 @@ export function toggleFavourites(movie: Movie): Movie[] {
     : [movie, ...favourites];
 
   try {
-    localStorage.setItem(FAVOURITES_KEY, JSON.stringify(updatedFavourites));
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(updatedFavourites));
   } catch {
     // Keep the updated favourites in React state if localStorage is unavailable.
   }
