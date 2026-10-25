@@ -1,6 +1,6 @@
 import { SAMPLE_MOVIES } from "../data/sampleMovies";
 import type { Movie, SortOption } from "../types";
-import { getApiKey, getFavourites } from "../utils/storage";
+import { getApiKey, getFavorites } from "../utils/storage";
 
 function matchesSearch(movie: Movie, search: string) {
   const query = search.trim().toLowerCase();
@@ -55,19 +55,19 @@ export const movieService = {
     search = "",
     genre = "all",
     sort = "popularity",
-    onlyFavourites = false,
+    onlyFavorites = false,
     page = 1,
     signal,
   }: {
     search?: string;
     genre?: string;
     sort?: SortOption;
-    onlyFavourites?: boolean;
+    onlyFavorites?: boolean;
     page?: number;
     signal?: AbortSignal;
   } = {}) {
-    if (onlyFavourites) {
-      const results = getFavourites().filter((movie: Movie) =>
+    if (onlyFavorites) {
+      const results = getFavorites().filter((movie: Movie) =>
         matchesSearch(movie, search),
       );
 

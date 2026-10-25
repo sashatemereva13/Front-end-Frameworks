@@ -10,14 +10,20 @@ import ApiConfigModal from "../components/ApiConfigModal";
 import StatsBanner from "../components/StatsBanner";
 import MovieModal from "../components/MovieModal";
 
+import { useAppContext } from "../context/AppContext";
+import { getRecommendations } from "../utils/recommendations";
+import { getGenreNames } from "../data/genres";
+
 function HomePage() {
   const [query, setQuery] = useState("");
   const [genre, setGenre] = useState("all");
   const [sort, setSort] = useState<SortOption>("popularity");
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
-  const [onlyFavourites, setOnlyFavourites] = useState(false);
+  const [onlyFavorites, setOnlyFavorites] = useState(false);
 
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+
+  const { favorites } = useAppContext();
 
   const [isApiConfigOpen, setIsApiConfigOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -25,17 +31,22 @@ function HomePage() {
     search: query,
     genre,
     sort,
-    onlyFavourites,
+    onlyFavorites,
     refreshKey,
   });
+
+  // calculated every time, not saved separately
+  // when search/genre/favorites state change, the
+  // recommendations become re-calculated
+  const recommendations = getRecommendations(movies, favorites);
 
   return (
     <>
       <Header
         search={query}
         onSearch={setQuery}
-        onlyFavourites={onlyFavourites}
-        onToggleFavourites={() => setOnlyFavourites(!onlyFavourites)}
+        onlyFavorites={onlyFavorites}
+        onToggleFavorites={() => setOnlyFavorites(!onlyFavorites)}
         onOpenApiConfig={() => setIsApiConfigOpen(true)}
       />
 
@@ -61,11 +72,45 @@ function HomePage() {
 
           <StatsBanner movies={movies} genre={genre} isLiveApi={isLiveApi} />
 
+          {!isLoading && !error && !onlyFavorites && (
+            <section aria-labelledby="recommendations-title">
+              <h2 id="recommendations-title">Recommended for you</h2>
+
+              {recommendations.length === 0 ? (
+                <p>
+                  {favorites.length === 0
+                    ? "Add some movies to your favorites to get personalised recommendations."
+                    : "No recommendations match these movies. Try a different search or genre."}
+                </p>
+              ) : (
+                // favorites-only cannot produce recommendations
+                // because then it stops being a recommendation
+                <div className="movies-grid">
+                  {recommendations.map(({ movie, matchedGenreIds }) => (
+                    <div key={movie.id}>
+                      {/* clicking a recommendation reuses the same modal */}
+                      <MovieCard
+                        movie={movie}
+                        onClick={() => setSelectedMovie(movie)}
+                      />
+                      <p>
+                        Because you like{" "}
+                        {getGenreNames(matchedGenreIds).join(", ")}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          )}
+
           {isLoading && <p> Loading them movies...</p>}
           {error && <p role="alert">{error}</p>}
 
           {!isLoading && !error && (
-            <div className={`movies-grid ${viewMode === "list" ? "compact-view" : ""}`}>
+            <div
+              className={`movies-grid ${viewMode === "list" ? "compact-view" : ""}`}
+            >
               {movies.length === 0 ? (
                 <p> NO movies found</p>
               ) : (

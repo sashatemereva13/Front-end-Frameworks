@@ -9,7 +9,7 @@ interface State {
 }
 
 type Action =
-  | { type: "TOGGLE_FAVOURITE"; payload: Movie }
+  | { type: "TOGGLE_FAVORITE"; payload: Movie }
   | { type: "SET_THEME"; payload: Theme };
 
 interface AppContextValue extends State {
@@ -22,16 +22,16 @@ const AppContext = createContext<AppContextValue | null>(null);
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
-    case "TOGGLE_FAVOURITE":
-      storage.toggleFavourites(action.payload);
-      return { ...state, favorites: storage.getFavourites() };
+    case "TOGGLE_FAVORITE":
+      storage.toggleFavorites(action.payload);
+      return { ...state, favorites: storage.getFavorites() };
     case "SET_THEME":
       return { ...state, theme: action.payload };
   }
 }
 
 function createInitialState(): State {
-  return { favorites: storage.getFavourites(), theme: storage.getTheme() };
+  return { favorites: storage.getFavorites(), theme: storage.getTheme() };
 }
 
 export function AppProvider({ children }: { children: ReactNode }) {
@@ -46,18 +46,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [state.theme]);
 
   function toggleTheme() {
-    dispatch({ type: "SET_THEME", payload: state.theme === "dark" ? "light" : "dark" });
+    dispatch({
+      type: "SET_THEME",
+      payload: state.theme === "dark" ? "light" : "dark",
+    });
   }
 
   function toggleFavorite(movie: Movie) {
-    dispatch({ type: "TOGGLE_FAVOURITE", payload: movie });
+    dispatch({ type: "TOGGLE_FAVORITE", payload: movie });
   }
 
   const value: AppContextValue = {
     ...state,
     toggleTheme,
     toggleFavorite,
-    isFavorite: (id) => state.favorites.some((movie) => Number(movie.id) === Number(id)),
+    isFavorite: (id) =>
+      state.favorites.some((movie) => Number(movie.id) === Number(id)),
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

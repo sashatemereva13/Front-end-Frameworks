@@ -5,16 +5,16 @@ import { useAppContext } from "../context/AppContext";
 interface HeaderProps {
   search: string;
   onSearch: (search: string) => void;
-  onlyFavourites: boolean;
-  onToggleFavourites: () => void;
+  onlyFavorites: boolean;
+  onToggleFavorites: () => void;
   onOpenApiConfig: () => void;
 }
 
 function Header({
   search,
   onSearch,
-  onlyFavourites,
-  onToggleFavourites,
+  onlyFavorites,
+  onToggleFavorites,
   onOpenApiConfig,
 }: HeaderProps) {
   const { theme, toggleTheme, favorites } = useAppContext();
@@ -51,11 +51,11 @@ function Header({
         <div className="header-actions">
           <button
             type="button"
-            className={`btn-icon-label ${onlyFavourites ? "active" : ""}`}
-            onClick={onToggleFavourites}
+            className={`btn-icon-label ${onlyFavorites ? "active" : ""}`}
+            onClick={onToggleFavorites}
           >
-            <Heart fill={onlyFavourites ? "currentColor" : "none"} size={18} />
-            <span>Favourites</span>
+            <Heart fill={onlyFavorites ? "currentColor" : "none"} size={18} />
+            <span>Favorites</span>
             <span className="count-badge">{favorites.length}</span>
           </button>
           <button

@@ -6,7 +6,7 @@ interface UseMoviesOptions {
   search?: string;
   genre?: string;
   sort?: SortOption;
-  onlyFavourites?: boolean;
+  onlyFavorites?: boolean;
   page?: number;
   refreshKey?: number;
 }
@@ -15,7 +15,7 @@ export function useMovies({
   search = "",
   genre = "all",
   sort = "popularity",
-  onlyFavourites = false,
+  onlyFavorites = false,
   page = 1,
   refreshKey = 0,
 }: UseMoviesOptions = {}) {
@@ -37,7 +37,7 @@ export function useMovies({
           search,
           genre,
           sort,
-          onlyFavourites,
+          onlyFavorites,
           page,
           signal: controller.signal,
         });
@@ -66,7 +66,7 @@ export function useMovies({
       cancelled = true;
       controller.abort();
     };
-  }, [search, genre, sort, onlyFavourites, page, refreshKey]);
+  }, [search, genre, sort, onlyFavorites, page, refreshKey]);
 
   return { movies, isLoading, error, isLiveApi };
 }

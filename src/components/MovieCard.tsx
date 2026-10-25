@@ -9,14 +9,11 @@ interface MovieCardProps {
   onClick?: () => void;
 }
 
-const MovieCard = ({
-  movie,
-  onClick,
-}: MovieCardProps) => {
+const MovieCard = ({ movie, onClick }: MovieCardProps) => {
   const { isFavorite, toggleFavorite } = useAppContext();
-  const favouriteActive = isFavorite(movie.id);
+  const favoriteActive = isFavorite(movie.id);
 
-  const handleFavouriteOnClick = (
+  const handleFavoriteOnClick = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     event.stopPropagation();
@@ -24,7 +21,12 @@ const MovieCard = ({
     toggleFavorite(movie);
   };
   return (
-    <div className={styles.movieCard} onClick={onClick} tabIndex={0} role="button">
+    <div
+      className={styles.movieCard}
+      onClick={onClick}
+      tabIndex={0}
+      role="button"
+    >
       <div className={styles.posterWrapper}>
         <img
           className={styles.posterImg}
@@ -38,16 +40,14 @@ const MovieCard = ({
             </span>
 
             <button
-              className={`${styles.favoriteBtn} ${favouriteActive ? styles.isFavorite : ""}`}
+              className={`${styles.favoriteBtn} ${favoriteActive ? styles.isFavorite : ""}`}
               type="button"
-              onClick={handleFavouriteOnClick}
+              onClick={handleFavoriteOnClick}
               aria-label={
-                favouriteActive
-                  ? "Remove from favourites"
-                  : "Add to favourites"
+                favoriteActive ? "Remove from favorites" : "Add to favorites"
               }
             >
-              {favouriteActive ? "♥" : "♡"}
+              {favoriteActive ? "♥" : "♡"}
             </button>
           </div>
         </div>

@@ -10,12 +10,9 @@ interface MovieModalProps {
   onClose: () => void;
 }
 
-function MovieModal({
-  movie,
-  onClose,
-}: MovieModalProps) {
+function MovieModal({ movie, onClose }: MovieModalProps) {
   const { isFavorite, toggleFavorite } = useAppContext();
-  const favouriteActive = isFavorite(movie.id);
+  const favoriteActive = isFavorite(movie.id);
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
 
@@ -63,7 +60,9 @@ function MovieModal({
 
         <div
           className="modal-backdrop-hero"
-          style={{ backgroundImage: `url(${getBackdropUrl(movie.backdrop_path)})` }}
+          style={{
+            backgroundImage: `url(${getBackdropUrl(movie.backdrop_path)})`,
+          }}
         />
 
         <div className="modal-body">
@@ -74,27 +73,42 @@ function MovieModal({
           />
 
           <div className="modal-content-details">
-            <h2 id="movie-modal-title" className="modal-title">{movie.title}</h2>
+            <h2 id="movie-modal-title" className="modal-title">
+              {movie.title}
+            </h2>
 
             <div className="modal-meta-row">
               <span className="modal-meta-item">{movie.release_date}</span>
-              <span className="modal-meta-item">Rating: {movie.vote_average.toFixed(1)}</span>
+              <span className="modal-meta-item">
+                Rating: {movie.vote_average.toFixed(1)}
+              </span>
             </div>
 
             <div className="movie-genres-tags">
               {getGenreNames(movie.genre_ids).map((genreName) => (
-                <span className="genre-tag" key={genreName}>{genreName}</span>
+                <span className="genre-tag" key={genreName}>
+                  {genreName}
+                </span>
               ))}
             </div>
 
             <p className="modal-overview">{movie.overview}</p>
 
             <div className="modal-footer-actions">
-              <button className="btn-primary" type="button" onClick={() => toggleFavorite(movie)}>
-                <Heart fill={favouriteActive ? "currentColor" : "none"} />
-                {favouriteActive ? "Remove from favourites" : "Add to favourites"}
+              <button
+                className="btn-primary"
+                type="button"
+                onClick={() => toggleFavorite(movie)}
+              >
+                <Heart fill={favoriteActive ? "currentColor" : "none"} />
+                {favoriteActive ? "Remove from favorites" : "Add to favorites"}
               </button>
-              <a className="btn-secondary" href={trailerUrl} target="_blank" rel="noreferrer">
+              <a
+                className="btn-secondary"
+                href={trailerUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
                 <Youtube />
                 Find trailer on YouTube
               </a>
