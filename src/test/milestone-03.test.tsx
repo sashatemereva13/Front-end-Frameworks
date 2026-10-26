@@ -20,10 +20,12 @@
  */
 
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { StrictMode } from 'react'
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 
 import App from '../App'
 import { AppProvider, useAppContext } from '../context/AppContext'
+import MovieModal from '../components/MovieModal'
 import type { Movie } from '../types'
 
 // ── Shared test fixtures ──────────────────────────────────────────────────────
@@ -301,6 +303,21 @@ describe('Global state — shared between components', () => {
     const counts = screen.getAllByTestId('fav-count')
     expect(counts[0]).toHaveTextContent('1')
     expect(counts[1]).toHaveTextContent('1')
+  })
+
+  it('favorite toggle works in StrictMode and persists once', () => {
+    render(
+      <StrictMode>
+        <AppProvider>
+          <MovieModal movie={MOCK_MOVIE} onClose={() => {}} />
+        </AppProvider>
+      </StrictMode>
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: /add to favorites/i }))
+
+    expect(screen.getByRole('button', { name: /remove from favorites/i })).toBeInTheDocument()
+    expect(JSON.parse(localStorage.getItem('cinegrid_favorites')!)).toHaveLength(1)
   })
 
   it('both consumers see the same theme after it is toggled', () => {

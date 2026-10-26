@@ -16,6 +16,11 @@ export interface Movie {
   adult: boolean;
 }
 
+export interface Genre {
+  id: number;
+  name: string;
+}
+
 export type SortOption =
   | "popularity"
   | "vote_average"

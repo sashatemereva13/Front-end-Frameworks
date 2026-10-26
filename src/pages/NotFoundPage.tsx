@@ -1,14 +1,23 @@
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { ArrowLeft, Clapperboard, House } from "lucide-react";
+import styles from "./NotFoundPage.module.css";
 
 function NotFoundPage() {
-  return (
-    <main className="app-layout">
-      <div className="main-container">
-        <h1> 404 - page not found</h1>
-        <p> the page you requested wasnt found soz</p>
+  const navigate = useNavigate();
 
-        <Link to="/"> go home walter</Link>
-      </div>
+  return (
+    <main className={styles.page}>
+      <section className={styles.card} aria-labelledby="not-found-title">
+        <div className={styles.icon} aria-hidden="true">
+          <Clapperboard size={30} />
+        </div>
+        <h1 id="not-found-title">404 — page not found</h1>
+        <p className={styles.message}>go home walter</p>
+        <Link className={styles.homeLink} to="/">
+          <House size={17} aria-hidden="true" />
+          Back to CineGrid
+        </Link>
+      </section>
     </main>
   );
 }

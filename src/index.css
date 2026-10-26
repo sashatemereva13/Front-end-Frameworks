@@ -604,9 +604,10 @@ select {
 .modal-backdrop-hero {
   position: relative;
   width: 100%;
-  height: 320px;
+  height: 240px;
   background-size: cover;
   background-position: center;
+  background-color: var(--bg-card);
 }
 
 .modal-backdrop-hero::after {
@@ -623,7 +624,7 @@ select {
 
 .modal-body {
   position: relative;
-  margin-top: -120px;
+  margin-top: -90px;
   padding: 0 32px 32px;
   display: flex;
   gap: 28px;
@@ -644,7 +645,7 @@ select {
   flex-direction: column;
   gap: 16px;
   flex: 1;
-  padding-top: 60px;
+  padding-top: 36px;
 }
 
 .modal-title {

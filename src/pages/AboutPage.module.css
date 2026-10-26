@@ -1,0 +1,133 @@
+.page {
+  min-height: 100vh;
+  padding: 40px 24px 64px;
+  background:
+    radial-gradient(ellipse at 50% 0, rgba(59, 130, 246, 0.14), transparent 45%),
+    var(--bg-main);
+}
+
+.content {
+  width: min(100%, 920px);
+  margin: 0 auto;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color var(--transition-fast);
+}
+
+.backLink:hover {
+  color: var(--accent);
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 76px 24px 56px;
+  text-align: center;
+}
+
+.heroIcon,
+.featureIcon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  color: var(--accent);
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.28);
+}
+
+.heroIcon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 24px;
+  border-radius: 20px;
+}
+
+.eyebrow {
+  margin-bottom: 10px;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.hero h1 {
+  color: var(--text-main);
+  font-size: clamp(2.3rem, 6vw, 4rem);
+  font-weight: 850;
+  letter-spacing: -0.055em;
+  line-height: 1.1;
+}
+
+.intro {
+  max-width: 620px;
+  margin-top: 18px;
+  color: var(--text-muted);
+  font-size: clamp(1rem, 2vw, 1.18rem);
+  line-height: 1.7;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.featureCard {
+  padding: 26px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
+}
+
+.featureIcon {
+  width: 42px;
+  height: 42px;
+  margin-bottom: 18px;
+  border-radius: var(--radius-md);
+}
+
+.featureCard h2 {
+  margin-bottom: 8px;
+  color: var(--text-main);
+  font-size: 1.1rem;
+}
+
+.featureCard p,
+.note {
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.note {
+  margin: 28px auto 0;
+  max-width: 680px;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+@media (max-width: 620px) {
+  .page {
+    padding: 28px 18px 44px;
+  }
+
+  .hero {
+    padding: 56px 8px 40px;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .featureCard {
+    padding: 22px;
+  }
+}

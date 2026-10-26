@@ -2,6 +2,7 @@ import { useState } from "react";
 import MovieCard from "../components/MovieCard";
 
 import { useMovies } from "../hooks/useMovies";
+import { useGenres } from "../hooks/useGenres";
 import type { Movie, SortOption, ViewMode } from "../types";
 import FilterBar from "../components/FilterBar";
 import Header from "../components/Header";
@@ -13,6 +14,8 @@ import MovieModal from "../components/MovieModal";
 import { useAppContext } from "../context/AppContext";
 import { getRecommendations } from "../utils/recommendations";
 import { getGenreNames } from "../data/genres";
+import { Sparkles } from "lucide-react";
+import styles from "./HomePage.module.css";
 
 function HomePage() {
   const [query, setQuery] = useState("");
@@ -35,6 +38,12 @@ function HomePage() {
     refreshKey,
   });
 
+  const {
+    genres,
+    isLoading: isLoadingGenres,
+    error: genresError,
+  } = useGenres(refreshKey);
+
   // calculated every time, not saved separately
   // when search/genre/favorites state change, the
   // recommendations become re-calculated
@@ -56,6 +65,7 @@ function HomePage() {
 
           <FilterBar
             genre={genre}
+            genres={genres}
             onGenreChange={setGenre}
             sort={sort}
             onSortChange={setSort}
@@ -73,31 +83,42 @@ function HomePage() {
           <StatsBanner movies={movies} genre={genre} isLiveApi={isLiveApi} />
 
           {!isLoading && !error && !onlyFavorites && (
-            <section aria-labelledby="recommendations-title">
-              <h2 id="recommendations-title">Recommended for you</h2>
+            <section
+              className={styles.recommendations}
+              aria-labelledby="recommendations-title"
+            >
+              <div className={styles.recommendationsHeader}>
+                <span className={styles.recommendationsIcon} aria-hidden="true">
+                  <Sparkles size={20} />
+                </span>
+                <div>
+                  <p className={styles.eyebrow}>PERSONALIZED PICKS</p>
+                  <h2 id="recommendations-title">Recommended for you</h2>
+                </div>
+              </div>
 
               {recommendations.length === 0 ? (
-                <p>
+                <p className={styles.emptyMessage}>
                   {favorites.length === 0
                     ? "Add some movies to your favorites to get personalised recommendations."
                     : "No recommendations match these movies. Try a different search or genre."}
                 </p>
               ) : (
-                // favorites-only cannot produce recommendations
-                // because then it stops being a recommendation
-                <div className="movies-grid">
+                <div className={styles.recommendationGrid}>
                   {recommendations.map(({ movie, matchedGenreIds }) => (
-                    <div key={movie.id}>
-                      {/* clicking a recommendation reuses the same modal */}
+                    <article
+                      className={styles.recommendationCard}
+                      key={movie.id}
+                    >
                       <MovieCard
                         movie={movie}
                         onClick={() => setSelectedMovie(movie)}
                       />
-                      <p>
-                        Because you like{" "}
+                      <p className={styles.recommendationReason}>
+                        <span>Matches your taste</span>
                         {getGenreNames(matchedGenreIds).join(", ")}
                       </p>
-                    </div>
+                    </article>
                   ))}
                 </div>
               )}

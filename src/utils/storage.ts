@@ -19,24 +19,12 @@ export function getFavorites(): Movie[] {
   }
 }
 
-export function toggleFavorites(movie: Movie): Movie[] {
-  const favorites = getFavorites();
-
-  const alreadyFavorite = favorites.some(
-    (favorite) => Number(favorite.id) === Number(movie.id),
-  );
-
-  const updatedFavorites = alreadyFavorite
-    ? favorites.filter((favorite) => Number(favorite.id) !== Number(movie.id))
-    : [movie, ...favorites];
-
+export function setFavorites(favorites: Movie[]) {
   try {
-    localStorage.setItem(FAVORITES_KEY, JSON.stringify(updatedFavorites));
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
   } catch {
-    // Keep the updated favorites in React state if localStorage is unavailable.
+    // Keep the in-memory favorites if localStorage is unavailable.
   }
-
-  return updatedFavorites;
 }
 
 export function getTheme(): Theme {
